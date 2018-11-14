@@ -16,7 +16,7 @@ public protocol ServiceKeyOption: CustomStringConvertible {
 
 // MARK: - ServiceKey
 internal struct ServiceKey {
-    internal let serviceType: Any.Type
+    internal let serviceType: String
     internal let argumentsType: Any.Type
     internal let name: String?
     internal let option: ServiceKeyOption? // Used for SwinjectStoryboard or other extensions.
@@ -27,7 +27,7 @@ internal struct ServiceKey {
         name: String? = nil,
         option: ServiceKeyOption? = nil
     ) {
-        self.serviceType = serviceType
+        self.serviceType = "\(serviceType)"
         self.argumentsType = argumentsType
         self.name = name
         self.option = option
@@ -37,7 +37,7 @@ internal struct ServiceKey {
 // MARK: Hashable
 extension ServiceKey: Hashable {
     var hashValue: Int {
-        return ObjectIdentifier(serviceType).hashValue
+        return serviceType.hashValue
             ^ ObjectIdentifier(argumentsType).hashValue
             ^ (name?.hashValue ?? 0)
             ^ (option?.hashValue ?? 0)
